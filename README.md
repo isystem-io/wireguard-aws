@@ -31,5 +31,6 @@ sudo ./reset.sh
 ```
 sudo ./remove.sh
 ```
-## Authors
+## Contributors  (alphabetically)
 - [Alexey Chernyavskiy](https://github.com/alexey-chernyavskiy)
+- [Max Kovgan](https://github.com/mvk)
