@@ -20,7 +20,7 @@ read VPN_SUBNET < ./vpn_subnet.var
 PRESHARED_KEY="_preshared.key"
 PRIV_KEY="_private.key"
 PUB_KEY="_public.key"
-ALLOWED_IP="0.0.0.0/0, ::/0"
+ALLOWED_IP="0.0.0.0/0"
 
 # Go to the wireguard directory and create a directory structure in which we will store client configuration files
 mkdir -p ./clients
