@@ -20,11 +20,12 @@ SERVER_PUBKEY=$( echo $SERVER_PRIVKEY | wg pubkey )
 echo $SERVER_PUBKEY > ./server_public.key
 echo $SERVER_PRIVKEY > ./server_private.key
 
-read -p "Enter the endpoint (external ip and port) in format [ipv4:port] (e.g. 4.3.2.1:54321):" ENDPOINT
+default_eip=$(curl ifconfig.io 2>/dev/null)
+default_endpoint="$default_eip:51820"
+read -p "Enter the endpoint (external ip and port) in format [ipv4:port] ([ENTER] set to default: $default_endpoint): " ENDPOINT
 if [ -z $ENDPOINT ]
 then
-echo "[#]Empty endpoint. Exit"
-exit 1;
+  ENDPOINT="$default_endpoint"
 fi
 echo $ENDPOINT > ./endpoint.var
 
@@ -47,10 +48,11 @@ echo $DNS > ./dns.var
 
 echo 1 > ./last_used_ip.var
 
-read -p "Enter the name of the WAN network interface ([ENTER] set to default: eth0): " WAN_INTERFACE_NAME
+default_eni=$(ip route | awk '/default/{match($0,"dev ([^ ]+)",M); print M[1]; exit}')
+read -p "Enter the name of the WAN network interface ([ENTER] set to default: $default_eni): " WAN_INTERFACE_NAME
 if [ -z $WAN_INTERFACE_NAME ]
 then
-  WAN_INTERFACE_NAME="eth0"
+  WAN_INTERFACE_NAME="$default_eni"
 fi
 
 echo $WAN_INTERFACE_NAME > ./wan_interface_name.var
