@@ -7,7 +7,7 @@ apt install wireguard-dkms wireguard-tools qrencode -y
 
 
 NET_FORWARD="net.ipv4.ip_forward=1"
-sysctl -w  ${NET_FORWARD}
+sysctl -w ${NET_FORWARD}
 sed -i "s:#${NET_FORWARD}:${NET_FORWARD}:" /etc/sysctl.conf
 
 cd /etc/wireguard
@@ -27,6 +27,14 @@ echo "[#]Empty endpoint. Exit"
 exit 1;
 fi
 echo $ENDPOINT > ./endpoint.var
+
+read -p "Enter the AWS VPC network (e.g. 10.0.0.0/16 or 0.0.0.0/0 to allow outgoing internet via VPC network):" ALLOWEDIPS
+if [ -z $ALLOWEDIPS ]
+then
+echo "[#]Empty allowed ips. Exit"
+exit 1;
+fi
+echo $ALLOWEDIPS > ./allowedips.var
 
 if [ -z "$1" ]
   then 
